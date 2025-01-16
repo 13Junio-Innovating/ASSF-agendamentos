@@ -1,0 +1,187 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surf sem Fronteira - Agendamentos Acessíveis</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- High Contrast Mode Toggle CSS -->
+  <link id="high-contrast-stylesheet" rel="stylesheet" href="high-contrast.css" disabled>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" role="navigation">
+    <div class="container">
+      <a class="navbar-brand" href="#" aria-label="Surf sem Fronteira - Página Inicial">
+        <img src="img/logo.png" alt="Logo Surf sem Fronteira" class="navbar-logo" onerror="this.style.display='none'">
+        Surf sem Fronteira
+      </a>
+      
+      <!-- Accessibility Controls -->
+      <div class="accessibility-controls">
+        <button onclick="toggleHighContrast()" class="btn btn-light" aria-label="Alternar alto contraste">
+          <i class="fas fa-adjust" aria-hidden="true"></i>
+        </button>
+        <button onclick="increaseFontSize()" class="btn btn-light" aria-label="Aumentar texto">
+          <i class="fas fa-text-height" aria-hidden="true"></i>+
+        </button>
+        <button onclick="decreaseFontSize()" class="btn btn-light" aria-label="Diminuir texto">
+          <i class="fas fa-text-height" aria-hidden="true"></i>-
+        </button>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showLoginModal()" 
+               aria-label="Acessar área administrativa">
+              <i class="fas fa-lock me-1" aria-hidden="true"></i>
+              Área Administrativa
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="container my-5">
+    <h1 class="sr-only">Opções de Agendamento</h1>
+    <div class="row">
+      <!-- Cards with improved accessibility -->
+      <div class="col-md-4">
+        <div class="card mb-4 hover-card" onclick="showScheduleModal('instrutor')" 
+             role="button" tabindex="0" aria-label="Agendar como instrutor">
+          <div class="card-body text-center">
+            <i class="fas fa-chalkboard-teacher fa-3x mb-3 text-primary" aria-hidden="true"></i>
+            <h2 class="card-title h5">Instrutor(Referência)</h2>
+            <p class="card-text">Agende uma aula com nossos instrutores qualificados</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card mb-4 hover-card" onclick="showScheduleModal('aluno')" 
+             role="button" tabindex="0" aria-label="Agendar como aluno">
+          <div class="card-body text-center">
+            <i class="fas fa-user-graduate fa-3x mb-3 text-success" aria-hidden="true"></i>
+            <h2 class="card-title h5">Aluno</h2>
+            <p class="card-text">Faça seu agendamento como aluno</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card mb-4 hover-card" onclick="showScheduleModal('berolas')" 
+             role="button" tabindex="0" aria-label="Agendar como berolas">
+          <div class="card-body text-center">
+            <i class="fas fa-users fa-3x mb-3 text-warning" aria-hidden="true"></i>
+            <h2 class="card-title h5">Berolas</h2>
+            <p class="card-text">Agende sua participação no grupo Berolas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Agendamento -->
+  <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="scheduleModalLabel">Agendamento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="scheduleForm" onsubmit="return false;">
+            <input type="hidden" id="modalidade" name="modalidade">
+            <div class="mb-3">
+              <label class="form-label" for="nome">Nome Completo</label>
+              <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="telefone">Telefone</label>
+              <input type="tel" class="form-control" id="telefone" name="telefone" required>
+            </div>
+            <div class="mb-3" id="disabilityField" style="display: none;">
+              <label class="form-label" for="tipoDeficiencia">Tipo de Deficiência</label>
+              <select class="form-control" id="tipoDeficiencia" name="tipoDeficiencia">
+                <option value="">Selecione o tipo</option>
+                <option value="Física">Física</option>
+                <option value="Visual">Visual</option>
+                <option value="Auditiva">Auditiva</option>
+                <option value="Intelectual">Intelectual</option>
+                <option value="Múltipla">Múltipla</option>
+                <option value="Outra">Outra</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="data">Data</label>
+              <input type="date" class="form-control" id="data" name="data" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="horario">Horário</label>
+              <select class="form-control" id="horario" name="horario" required>
+                <option value="">Selecione um horário</option>
+                <option value="08:00">08:30</option>
+                <option value="08:00">09:30</option>
+                <option value="08:00">10:30</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Fechar">Fechar</button>
+          <button type="button" class="btn btn-primary" onclick="saveSchedule()">Agendar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Login -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login Administrativo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm" onsubmit="return false;">
+            <div class="mb-3">
+              <label class="form-label" for="username">Usuário</label>
+              <input type="text" class="form-control" id="username" required placeholder="admin">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="password">Senha</label>
+              <input type="password" class="form-control" id="password" required placeholder="admin">
+            </div>
+            <div class="alert alert-info">
+              <small>
+                <i class="fas fa-info-circle"></i>
+                Use admin/admin para acessar
+              </small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Fechar">Fechar</button>
+          <button type="button" class="btn btn-primary" onclick="login()">Entrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
